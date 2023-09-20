@@ -2,6 +2,7 @@ import PlusIcon from '@icons/PlusIcon';
 import { useState } from 'react';
 import { Column } from 'src/types';
 import { v4 as uuidv4 } from 'uuid';
+import ColumnContainer from './ColumnContainer';
 
 const defaultCols: Column[] = [
   {
@@ -44,9 +45,9 @@ const KanbanBoard = () => {
     ">
       <div className="m-auto flex gap-4">
         <div className="flex gap-4">
-            {columns.map((col) => (
-             <p key={col.id}>{col.title}</p>
-            ))}
+          {columns.map((col) => (
+            <ColumnContainer key={col.id} column={col} deleteColumn={(str: string) => {}} />
+          ))}
         </div>
         <button
           className="h-[60px] w-[350px]
