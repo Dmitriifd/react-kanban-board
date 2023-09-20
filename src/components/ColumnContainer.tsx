@@ -70,9 +70,7 @@ const ColumnContainer = ({ column, deleteColumn }: ColumnContainerProps) => {
         Content
       </div>
       {/* Column footer */}
-      <button
-        className="flex gap-2 items-center border-columnBackgroundColor border-2 rounded-md p-4 border-x-columnBackgroundColor hover:bg-mainBackgroundColor hover:text-rose-500 active:bg-black"
-        >
+      <button className="flex gap-2 items-center border-columnBackgroundColor border-2 rounded-md p-4 border-x-columnBackgroundColor hover:bg-mainBackgroundColor hover:text-rose-500 active:bg-black">
         <PlusIcon />
         Add task
       </button>
