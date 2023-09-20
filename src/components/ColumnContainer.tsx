@@ -8,9 +8,10 @@ import { useState } from 'react';
 interface ColumnContainerProps {
   column: Column;
   deleteColumn: (id: string) => void;
+  updateColumn: (id: string, title: string) => void;
 }
 
-const ColumnContainer = ({ column, deleteColumn }: ColumnContainerProps) => {
+const ColumnContainer = ({ column, deleteColumn, updateColumn }: ColumnContainerProps) => {
   const [editMode, setEditMode] = useState(false);
   const { setNodeRef, attributes, listeners, transform, transition, isDragging } = useSortable({
     id: column.id,
@@ -63,6 +64,7 @@ const ColumnContainer = ({ column, deleteColumn }: ColumnContainerProps) => {
       <div
         {...attributes}
         {...listeners}
+        onClick={() => setEditMode(true)}
         className="
         bg-mainBackgroundColor
           text-md
@@ -92,7 +94,20 @@ const ColumnContainer = ({ column, deleteColumn }: ColumnContainerProps) => {
         ">
             0
           </div>
-          {column.title}
+          {!editMode && column.title}
+          {editMode && (
+            <input
+              className="bg-black focus:border-rose-500 border rounded outline-none px-2"
+              value={column.title}
+              onChange={(e) => updateColumn(column.id, e.target.value)}
+              autoFocus
+              onBlur={() => setEditMode(false)}
+              onKeyDown={(e) => {
+                if (e.key !== 'Enter') return;
+                setEditMode(false);
+              }}
+            />
+          )}
         </div>
         <button
           className="
