@@ -1,5 +1,4 @@
-import KanbanBoard from "@components/KanbanBoard";
-
+import KanbanBoard from '@components/KanbanBoard';
 
 function App() {
   return (
