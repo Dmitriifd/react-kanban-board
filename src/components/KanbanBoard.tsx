@@ -1,3 +1,5 @@
+import PlusIcon from "@icons/PlusIcon";
+
 const KanbanBoard = () => {
   return (
     <div
@@ -25,6 +27,7 @@ const KanbanBoard = () => {
       hover:ring-2
       flex
       gap-2">
+          <PlusIcon />
           Add Column
         </button>
       </div>
