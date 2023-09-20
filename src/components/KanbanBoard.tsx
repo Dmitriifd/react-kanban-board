@@ -179,29 +179,20 @@ const KanbanBoard = () => {
   }
 
   function onDragEnd(event: DragEndEvent) {
-    setActiveColumn(null);
-    setActiveTask(null);
-
     const { active, over } = event;
-    if (!over) return;
 
-    const activeId = active.id;
-    const overId = over.id;
+    const isActiveATask = active.data.current?.type === 'Task';
+    const isOverATask = over?.data.current?.type === 'Task';
 
-    if (activeId === overId) return;
+    if (active.id !== over?.id && isActiveATask === isOverATask) {
+      setColumns((columns) => {
+        const activeColumnIndex = columns.findIndex((col) => col.id === active.id);
 
-    const isActiveAColumn = active.data.current?.type === 'Column';
-    if (!isActiveAColumn) return;
+        const overColumnIndex = columns.findIndex((col) => col.id === over?.id);
 
-    console.log('DRAG END');
-
-    setColumns((columns) => {
-      const activeColumnIndex = columns.findIndex((col) => col.id === activeId);
-
-      const overColumnIndex = columns.findIndex((col) => col.id === overId);
-
-      return arrayMove(columns, activeColumnIndex, overColumnIndex);
-    });
+        return arrayMove(columns, activeColumnIndex, overColumnIndex);
+      });
+    }
   }
 
   function onDragOver(event: DragOverEvent) {
