@@ -1,17 +1,30 @@
 import PlusIcon from '@icons/PlusIcon';
 import TrashIcon from '@icons/TrashIcon';
-import { Column, Task } from 'src/types';
+import { Column, Id, Task } from 'src/types';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { useState } from 'react';
+import TaskCard from './TaskCard';
 
 interface ColumnContainerProps {
   column: Column;
-  deleteColumn: (id: string) => void;
-  updateColumn: (id: string, title: string) => void;
+  deleteColumn: (id: Id) => void;
+  updateColumn: (id: Id, title: string) => void;
+  createTask: (columnId: Id) => void;
+  updateTask: (id: Id, content: string) => void;
+  deleteTask: (id: Id) => void;
+  tasks: Task[];
 }
 
-const ColumnContainer = ({ column, deleteColumn, updateColumn }: ColumnContainerProps) => {
+const ColumnContainer = ({
+  column,
+  deleteColumn,
+  updateColumn,
+  createTask,
+  updateTask,
+  deleteTask,
+  tasks
+}: ColumnContainerProps) => {
   const [editMode, setEditMode] = useState(false);
   const { setNodeRef, attributes, listeners, transform, transition, isDragging } = useSortable({
     id: column.id,
@@ -124,10 +137,14 @@ const ColumnContainer = ({ column, deleteColumn, updateColumn }: ColumnContainer
       </div>
       {/* Column task container */}
       <div className="flex flex-grow flex-col gap-4 p-2 overflow-x-hidden overflow-y-auto">
-        Content
+        {tasks.map((task) => (
+          <TaskCard key={task.id} task={task} deleteTask={deleteTask} updateTask={updateTask} />
+        ))}
       </div>
       {/* Column footer */}
-      <button className="flex gap-2 items-center border-columnBackgroundColor border-2 rounded-md p-4 border-x-columnBackgroundColor hover:bg-mainBackgroundColor hover:text-rose-500 active:bg-black">
+      <button
+        className="flex gap-2 items-center border-columnBackgroundColor border-2 rounded-md p-4 border-x-columnBackgroundColor hover:bg-mainBackgroundColor hover:text-rose-500 active:bg-black"
+        onClick={() => createTask(column.id)}>
         <PlusIcon />
         Add task
       </button>
